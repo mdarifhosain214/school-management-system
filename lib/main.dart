@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       title: 'ASM-APP',
       debugShowCheckedModeBanner: false,
       theme: getApplicationTheme(),
-       home:AdmissionForm() //const HomeScreen()
+       home:const HomeScreen()//AdmissionForm() //
     );
   }
 }
