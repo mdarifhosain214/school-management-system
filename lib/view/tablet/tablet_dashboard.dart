@@ -1,0 +1,15 @@
+import 'package:flutter/material.dart';
+import 'package:school_management_system_app/view/drawer/drawer_screen.dart';
+
+class TabletDashboard extends StatelessWidget {
+  const TabletDashboard({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+       appBar:AppBar() ,
+      drawer: const DrawerScreen(),
+      backgroundColor: Colors.teal,
+    );
+  }
+}
