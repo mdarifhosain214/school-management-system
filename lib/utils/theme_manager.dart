@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
 import 'package:school_management_system_app/utils/colors.dart';
 import 'package:school_management_system_app/utils/font_manager.dart';
 import 'package:school_management_system_app/utils/style_manager.dart';
@@ -7,6 +7,7 @@ import 'package:school_management_system_app/utils/values_manager.dart';
 
 ThemeData getApplicationTheme() {
   return ThemeData(
+    visualDensity:  VisualDensity.adaptivePlatformDensity,
       useMaterial3: true,
       //main color of the app====================
       primaryColor: AppColors.primary,
@@ -54,10 +55,14 @@ ThemeData getApplicationTheme() {
             getMediunStyle(color: AppColors.lightGrey, fontSize: FontSize.s14),
         bodyLarge:
             getRegularStyle(color: AppColors.grey, fontSize: FontSize.s12),
-            
       ),
-
-
+      //scrollbarthemedata
+      scrollbarTheme: ScrollbarThemeData(
+        thumbColor: MaterialStateProperty.all(Colors.blueGrey),
+        trackColor: MaterialStateProperty.all(Colors.grey[300]),
+        radius: const Radius.circular(8),
+        thickness: MaterialStateProperty.all(6),
+      ),
 
       inputDecorationTheme: InputDecorationTheme(
         contentPadding: const EdgeInsets.all(AppPadding.p8),

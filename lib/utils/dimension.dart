@@ -25,7 +25,13 @@ class Dimensions {
   static List<BoxShadow> shadow =  <BoxShadow>[
     const BoxShadow(color:  Color(0xfff8f8f8), blurRadius: 10, spreadRadius: 15),
   ];
-
+  static bool isMobile(BuildContext context) =>
+      MediaQuery.of(context).size.width < 650;
+ static bool isTablet(BuildContext context) =>
+      MediaQuery.of(context).size.width >= 650 &&
+      MediaQuery.of(context).size.width <= 1100;
+ static bool isDestop(BuildContext context) =>
+      MediaQuery.of(context).size.width > 1100;
 
   static EdgeInsets padding = const EdgeInsets.symmetric(horizontal: 20, vertical: 10);
   static EdgeInsets hPadding = const EdgeInsets.symmetric(horizontal: 10,);
@@ -36,5 +42,6 @@ class Dimensions {
   static double fullHeight(BuildContext context){
     return MediaQuery.of(context).size.height;
   }
+
 
 }

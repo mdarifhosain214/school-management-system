@@ -8,7 +8,7 @@ class TabletDashboard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
        appBar:AppBar() ,
-      drawer: const DrawerScreen(),
+      drawer:  DrawerScreen(),
       backgroundColor: Colors.teal,
     );
   }

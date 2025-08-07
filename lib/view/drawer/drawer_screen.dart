@@ -1,22 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:school_management_system_app/provider/operations.dart';
 import 'package:school_management_system_app/utils/colors.dart';
+import 'package:school_management_system_app/utils/router_manager.dart';
 
-import '../desktop/admission.dart';
+
+
+
 
 class DrawerScreen extends StatelessWidget {
   const DrawerScreen({super.key});
+ 
   @override
+   
+
+
   Widget build(BuildContext context) {
-    return Drawer(
+    return Consumer<OperationProvider>(builder: (context, op,child){
+      return Drawer(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
       backgroundColor: const Color(0xff1d1d42),
       child: ListView(
         children: [
-          const DrawerHeader(child: CircleAvatar()),
           ListTile(
             onTap: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (_) => const AdmissionForm()));
+               Navigator.pushNamed(context, Routes.admissionRoute);
             },
             title: const Text("Admission Management",
                 style: TextStyle(color: Colors.white)),
@@ -47,6 +55,25 @@ class DrawerScreen extends StatelessWidget {
             horizontalTitleGap: 10,
             hoverColor: AppColors.grey2,
           ),
+          MouseRegion(
+      onEnter: (_) =>op.isHovere(isHovered: true),
+      onExit: (_) => op.isHovere(isHovered: false),
+      child: ListTile(
+        onTap: () {},
+        title: AnimatedDefaultTextStyle(
+          duration: const Duration(milliseconds: 200),
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: op.isHovered? 14 : 12, // Change size on hover
+          ),
+          child: const Text("Students Management"),
+        ),
+        leading:  Icon(Icons.diversity_3, color: Colors.white,size:  op.isHovered? 26 : 24,),
+        horizontalTitleGap: 10,
+        hoverColor: AppColors.grey2,
+      ),
+    )
+,
           ListTile(
             onTap: () {},
             title:
@@ -212,5 +239,6 @@ class DrawerScreen extends StatelessWidget {
         ],
       ),
     );
+    });
   }
 }
