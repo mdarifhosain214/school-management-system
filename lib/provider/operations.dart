@@ -7,4 +7,11 @@ class OperationProvider extends ChangeNotifier {
     _isHovered = isHovered;
     notifyListeners();
   }
+
+  bool _isDesktopSidebar = true;
+  bool get isDesktopSidebar => _isDesktopSidebar;
+  desktopSidebar({required bool isDesktopSidebar}) {
+    _isDesktopSidebar = isDesktopSidebar;
+    notifyListeners();
+  }
 }

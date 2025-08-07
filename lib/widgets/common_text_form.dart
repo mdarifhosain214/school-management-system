@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:school_management_system_app/utils/colors.dart';
+import 'package:provider/provider.dart';
 import 'package:school_management_system_app/utils/dimension.dart';
-import 'package:school_management_system_app/utils/style_manager.dart';
-import 'package:school_management_system_app/utils/values_manager.dart';
+
+import '../provider/operations.dart';
 
 class CommonTextForm extends StatelessWidget {
   final String title;
@@ -10,22 +10,17 @@ class CommonTextForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(AppPadding.p8),
-            child: Text(
-              "$title :",
-              style: getLightStyle(color: AppColors.grey, fontSize: AppSize.s16),
-            ),
-          ),
-          SizedBox(
-              width: Dimensions.fullWidth(context) * 0.35,
-              child: TextFormField()),
-        ],
-      ),
-    );
+    return Consumer<OperationProvider>(builder: (context, op, child) {
+      return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: SizedBox(
+              height: 40,
+              width:Dimensions.isMobile(context)?Dimensions.fullWidth(context): Dimensions.isTablet(context)?  (Dimensions.fullWidth(context))/2.34: op.isDesktopSidebar? (Dimensions.fullWidth(context) -
+                      MediaQuery.of(context).size.width * 0.17) /
+                  3.5: (Dimensions.fullWidth(context))/3.4,
+              child: TextFormField(
+                decoration: InputDecoration(hintText: "Enter $title"),
+              )));
+    });
   }
 }

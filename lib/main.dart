@@ -4,6 +4,7 @@ import 'package:school_management_system_app/home/home_screen.dart';
 import 'package:school_management_system_app/provider/operations.dart';
 import 'package:school_management_system_app/utils/router_manager.dart';
 import 'package:school_management_system_app/utils/theme_manager.dart';
+import 'package:school_management_system_app/view/admission/admission.dart';
 
 
 
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
         onGenerateRoute: RouteGenerator.getRoute,
         initialRoute: Routes.splashRoute,
         theme: getApplicationTheme(),
-        home: const HomeScreen() //AdmissionForm() //
+        home:const HomeScreen() 
         );
   }
 }

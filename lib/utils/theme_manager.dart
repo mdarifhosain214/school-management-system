@@ -30,7 +30,7 @@ ThemeData getApplicationTheme() {
           centerTitle: true,
           color: AppColors.primary,
           elevation: AppSize.s4,
-          shadowColor: AppColors.primaryOpecity70,
+          shadowColor: AppColors.primary,
           iconTheme: IconThemeData(color: AppColors.white),
           titleTextStyle:
               getRegularStyle(color: AppColors.white, fontSize: FontSize.s16)),
@@ -65,10 +65,12 @@ ThemeData getApplicationTheme() {
       ),
 
       inputDecorationTheme: InputDecorationTheme(
+        counterStyle:  getMediunStyle(color: AppColors.darkGrey),
         contentPadding: const EdgeInsets.all(AppPadding.p8),
-        helperStyle: getRegularStyle(color: AppColors.grey1),
+        helperStyle: getRegularStyle(color: AppColors.darkGrey),
         labelStyle: getMediunStyle(color: AppColors.darkGrey),
         errorStyle: getRegularStyle(color: AppColors.error),
+        
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(color: AppColors.grey, width: AppSize.s1),
           borderRadius: const BorderRadius.all(Radius.circular(AppSize.s8)),
