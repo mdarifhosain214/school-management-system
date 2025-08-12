@@ -1,26 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:school_management_system_app/home/home_screen.dart';
+import 'package:school_management_system_app/provider/api_provider.dart';
 import 'package:school_management_system_app/provider/operations.dart';
 import 'package:school_management_system_app/utils/router_manager.dart';
 import 'package:school_management_system_app/utils/theme_manager.dart';
-import 'package:school_management_system_app/view/admission/admission.dart';
+import 'package:school_management_system_app/service_locator.dart'as di;
+import 'api_services/Repository/api_repo.dart';
 
 
-
-
-void main() {
+void main() async{
   WidgetsFlutterBinding.ensureInitialized();
- 
-
-
-  runApp(
-    MultiProvider(providers: [
-      ChangeNotifierProvider(create: (_)=>OperationProvider())
-    ],
-    child: const MyApp()
-    )
-    );
+  await di.init();
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (context) => di.sl<ApiProvider>()),
+   
+    ChangeNotifierProvider(create: (context) =>di.sl <OperationProvider>()),
+  ], child: const MyApp()));
+    
 }
 
 class MyApp extends StatelessWidget {
@@ -31,9 +28,8 @@ class MyApp extends StatelessWidget {
         title: 'ASM-APP',
         debugShowCheckedModeBanner: false,
         onGenerateRoute: RouteGenerator.getRoute,
-        initialRoute: Routes.splashRoute,
+        initialRoute: Routes.home,
         theme: getApplicationTheme(),
-        home:const HomeScreen() 
-        );
+        home: const HomeScreen());
   }
 }

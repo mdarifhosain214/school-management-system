@@ -4,7 +4,7 @@ import 'package:school_management_system_app/utils/app_string.dart';
 import 'package:school_management_system_app/view/admission/admission.dart';
 
 class Routes {
-  static const String splashRoute = "/";
+  static const String home = "/home";
   static const String admissionRoute = "/admission";
   static const String loginRoute = "/login";
   static const String registerRoute = "/register";
@@ -16,7 +16,7 @@ class Routes {
 class RouteGenerator {
   static Route<dynamic> getRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
-      case Routes.splashRoute:
+      case Routes.home:
         return MaterialPageRoute(builder: (_) => HomeScreen());
       // case Routes.loginRoute:
       // return MaterialPageRoute(builder: (_)=>LoginScreen());

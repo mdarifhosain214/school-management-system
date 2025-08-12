@@ -17,7 +17,7 @@ class AdmissionHeader extends StatelessWidget {
       padding: const EdgeInsets.all(AppPadding.p8),
       child: Container(
         height: 40,
-        width:Dimensions.isMobile(context)?Dimensions.fullWidth(context): Dimensions.isTablet(context)?  (Dimensions.fullWidth(context))/2.34: op.isDesktopSidebar? ( Dimensions.fullWidth(context) - MediaQuery.of(context).size.width*0.17)/3.5:Dimensions.fullWidth(context)/3.4 ,
+        width:Dimensions.isMobile(context)?Dimensions.fullWidth(context): Dimensions.isTablet(context)?  (Dimensions.fullWidth(context))/2.34: op.isDesktopSidebar? ( Dimensions.fullWidth(context) - MediaQuery.of(context).size.width*0.17)/2.3:Dimensions.fullWidth(context)/2.2 ,
         decoration: BoxDecoration(
             color: AppColors.primary,
             borderRadius: BorderRadius.circular(AppSize.s12)),
