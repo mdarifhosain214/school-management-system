@@ -9,7 +9,8 @@ import '../utils/style_manager.dart';
 
 class CommonDropdownButton extends StatefulWidget {
   final List<String> list;
-  const CommonDropdownButton({super.key, required this.list});
+  final TextEditingController textController;
+  const CommonDropdownButton({super.key, required this.list, required this.textController});
 
   @override
   State<CommonDropdownButton> createState() => _CommonDropdownButtonState();
@@ -50,6 +51,7 @@ class _CommonDropdownButtonState extends State<CommonDropdownButton> {
             // This is called when the user selects an item.
             setState(() {
               dropdownValue = value!;
+              widget.textController.text=value;
             });
           },
           items:widget. list.map<DropdownMenuItem<String>>((String value) {

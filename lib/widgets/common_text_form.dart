@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:school_management_system_app/utils/colors.dart';
 import 'package:school_management_system_app/utils/dimension.dart';
 
 import '../provider/operations.dart';
+import '../utils/style_manager.dart';
 
 class CommonTextForm extends StatelessWidget {
   final String title;
-  const CommonTextForm({super.key, required this.title});
+  final TextEditingController textController;
+  final FocusNode focusNode;
+
+  final bool readOnly;
+  final int maxLine;
+  final VoidCallback? onPressed;
+  final IconData? suffixIconData;
+  final IconData? prefixIconData;
+  const CommonTextForm({super.key, required this.title, required this.textController, required this.focusNode,  this.readOnly=false, this.onPressed, this.suffixIconData, this.prefixIconData,  this.maxLine=1});
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +29,20 @@ class CommonTextForm extends StatelessWidget {
                       MediaQuery.of(context).size.width * 0.17) /
                  2.3:Dimensions.fullWidth(context)/2.2 ,
               child: TextFormField(
+                controller: textController,
+                maxLines: maxLine,
+                decoration: InputDecoration(
+                  hintText: "Enter $title",
+                  hintStyle: getRegularStyle(color: AppColors.grey2),
+                suffixIcon: IconButton(
+                onPressed: onPressed,
+                icon: Icon(
+                  suffixIconData,
+                  color: AppColors.primary,
+                  size: 24,
+                )),
+                ),
                 
-                decoration: InputDecoration(hintText: "Enter $title"),
               )));
     });
   }
