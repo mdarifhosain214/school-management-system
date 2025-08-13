@@ -11,7 +11,6 @@ import '../model/data_access_param.dart';
 import '../model/jwt_token_model.dart';
 import '../model/response_model.dart';
 import '../utils/code_util.dart';
-
 class ApiProvider with ChangeNotifier {
   final ApiRepo apiRepo;
   ApiProvider(this.apiRepo);
@@ -21,23 +20,16 @@ class ApiProvider with ChangeNotifier {
     BuildContext context,
   ) async {
     _jwtTokenInfo = null;
-
     ApiResponse apiResponse = await apiRepo.jwt();
     ResponseModel responseModel;
     if (apiResponse.response != null &&
         (apiResponse.response!.statusCode == 200 ||
             apiResponse.response!.statusCode == 201)) {
-      //    String decompressedJson =   CodeUtil.decompress(apiResponse.response!.data.toString());
-      //  log( "token $decompressedJson");
       _jwtTokenInfo = JwtTokenInfo.fromJson(apiResponse.response!.data);
-
       log(_jwtTokenInfo.toString());
       apiRepo.saveToken(_jwtTokenInfo!.tokenstr);
-      //apiRepo.saveExpiryDate(jwtTokenInfo!.expirytime!);
       responseModel = ResponseModel(true, '${apiResponse.response}');
       debugPrint('success');
-      admission();
-      //showCustomSnackBar('Success', context, isError: false);
     } else {
       if (apiRepo.getUserToken() != null) {
         responseModel = ResponseModel(true, '${apiResponse.response}');
@@ -45,9 +37,9 @@ class ApiProvider with ChangeNotifier {
         responseModel = ResponseModel(false, '${apiResponse.error}');
       }
       debugPrint('failed');
-      //showCustomSnackBar('Success', context, isError: true);
+      
     }
-    //notifyListeners();
+   
     return responseModel;
   }
 
@@ -55,12 +47,7 @@ class ApiProvider with ChangeNotifier {
 
 
   Future<ResponseModel> admission() async {
-    var std_tbl = {
-      "instid": "1010",
-      "stdid": "S0000000",
-      "stdnam": "Moon",
-      "stdadr": "Chandpur"
-    };
+    var std_tbl =[{"instid":"1010","stdid":"S0000001","stdnam":"RAFIK","stdadr":"Chandpur"}];
     Map tbl = {"std_tbl": std_tbl};
     String json = jsonEncode(tbl);
     log(json);
@@ -71,7 +58,7 @@ class ApiProvider with ChangeNotifier {
         parm01: '1010',
         parmJson1: json);
 
-    var encryptedData = CodeUtil.convertToBase64(_dataAccessParam!);
+    var encryptedData = CodeUtil.convertToBase64(_dataAccessParam);
     ResponseModel responseModel;
     ApiResponse apiResponse =
         await apiRepo.dataApi(paramBaseString: encryptedData);
