@@ -1,10 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:school_management_system_app/provider/operations.dart';
 import 'package:school_management_system_app/utils/colors.dart';
 import 'package:school_management_system_app/utils/values_manager.dart';
 import 'package:school_management_system_app/view/drawer/drawer_screen.dart';
-import 'package:school_management_system_app/widgets/admissiom_header.dart';
+import 'package:school_management_system_app/widgets/admission_header.dart';
 import '../../provider/api_provider.dart';
 import '../../utils/dimension.dart';
 import '../../utils/router_manager.dart';
@@ -27,7 +29,8 @@ class _AdmissionDesktopFormState extends State<AdmissionDesktopForm> {
   final TextEditingController gendCtrl = TextEditingController();
   final TextEditingController stdModCtrl = TextEditingController();
   final TextEditingController stdMailCtrl = TextEditingController();
-  final TextEditingController stdAdrCtrl = TextEditingController();
+  final TextEditingController stdCAdrCtrl = TextEditingController();
+  final TextEditingController stdPAdrCtrl = TextEditingController();
 
   //*****************parent information controller ****************************
   final TextEditingController fathNameCtrl = TextEditingController();
@@ -38,6 +41,7 @@ class _AdmissionDesktopFormState extends State<AdmissionDesktopForm> {
 
   //*****************Academic information controller ****************************
   final TextEditingController clsIdCtrl = TextEditingController();
+  final TextEditingController secIdCtrl = TextEditingController();
   final TextEditingController prevInstCtrl = TextEditingController();
    //*****************Others information controller ****************************
     final TextEditingController guarNameCtrl = TextEditingController();
@@ -49,7 +53,8 @@ class _AdmissionDesktopFormState extends State<AdmissionDesktopForm> {
   FocusNode dOBNoFocusNode = FocusNode();
   FocusNode stdModFocusNode = FocusNode();
   FocusNode stdMailFocusNode = FocusNode();
-  FocusNode stdAdrFocusNode = FocusNode();
+  FocusNode stdCAdrFocusNode = FocusNode();
+  FocusNode stdPAdrFocusNode = FocusNode();
 
   //*****************parent information focus node ****************************
   FocusNode fathNameFocusNode = FocusNode();
@@ -60,6 +65,7 @@ class _AdmissionDesktopFormState extends State<AdmissionDesktopForm> {
 
   //*****************academic information focus node ****************************
   FocusNode clsIdFocusNode = FocusNode();
+  FocusNode secIdFocusNode = FocusNode();
   FocusNode prevInstFocusNode = FocusNode();
 
   //*****************others information focus node ****************************
@@ -74,7 +80,8 @@ class _AdmissionDesktopFormState extends State<AdmissionDesktopForm> {
     dOBNoCtrl.dispose();
     stdModCtrl.dispose();
     stdMailCtrl.dispose();
-    stdAdrCtrl.dispose();
+    stdCAdrCtrl.dispose();
+    stdPAdrCtrl.dispose();
     //***************** dispose parent information controller ****************************
     fathNameCtrl.dispose();
     fathNIDCtrl.dispose();
@@ -96,6 +103,9 @@ class _AdmissionDesktopFormState extends State<AdmissionDesktopForm> {
     dOBNoFocusNode.dispose();
     stdModFocusNode.dispose();
     stdMailFocusNode.dispose();
+    stdCAdrCtrl.dispose();
+    stdPAdrFocusNode.dispose();
+    
 
     //***************** dispose parent information focus node ****************************
     fathNameFocusNode.dispose();
@@ -125,7 +135,7 @@ class _AdmissionDesktopFormState extends State<AdmissionDesktopForm> {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (mounted) {
         var op = Provider.of<OperationProvider>(context, listen: false);
-        op.selectDate(context: context, textController: stdNameCtrl);
+        op.selectDate(context: context, textController: dOBCtrl);
       }
     });
   }
@@ -197,13 +207,51 @@ class _AdmissionDesktopFormState extends State<AdmissionDesktopForm> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.start,
                                           children: [
-                                            const AdmissionHeader(
-                                                title: "Student Information"),
-                                            CommonTextForm(
-                                              textController: stdNameCtrl,
-                                              focusNode: stdNameFocusNode,
-                                              title: "Student Name",
-                                            ),
+                                           const AdmissionHeader(title: "Student Information"),
+                            CommonTextForm(
+                                title: "student name",
+                                textController: stdNameCtrl,
+                                focusNode: stdNameFocusNode),
+                            CommonDropdownButton(
+                              list: ['male', 'female'],
+                              textController: gendCtrl,
+                            ),
+                            CommonTextForm(
+                              title: "DOB",
+                              textController: dOBCtrl,
+                              focusNode: dOBFocusNode,
+                              suffixIconData: Icons.calendar_month,
+                              onPressed: () {
+                                op.selectDate(
+                                    context: context,
+                                    textController: dOBCtrl,
+                                    select: '');
+                              },
+                            ),
+                             CommonTextForm(
+                                title: "Birth Certification No",
+                                textController: dOBNoCtrl,
+                                focusNode: dOBNoFocusNode),
+                            CommonTextForm(
+                                title: "Mobile",
+                                textController: stdModCtrl,
+                                focusNode: stdModFocusNode),
+                            CommonTextForm(
+                                title: "Email",
+                                textController: stdMailCtrl,
+                                focusNode: stdMailFocusNode),
+                            CommonTextForm(
+                              title: "Current address",
+                              textController: stdCAdrCtrl,
+                              focusNode: stdCAdrFocusNode,
+                              maxLine: 3,
+                            ),
+                             CommonTextForm(
+                              title: "Permanent address",
+                              textController: stdCAdrCtrl,
+                              focusNode: stdCAdrFocusNode,
+                              maxLine: 3,
+                            ),
                                           ],
                                         ),
                                       ),
@@ -217,10 +265,34 @@ class _AdmissionDesktopFormState extends State<AdmissionDesktopForm> {
                                                 BorderRadius.circular(8),
                                             border: Border.all(
                                                 color: AppColors.grey2)),
-                                        child: const Column(
+                                        child:  Column(
                                           children: [
-                                            AdmissionHeader(
-                                                title: "Parent Information"),
+                                            const AdmissionHeader(title: "Parent Information"),
+                            CommonTextForm(
+                              title: "Father name",
+                              textController: fathNameCtrl,
+                              focusNode: fathNameFocusNode,
+                            ),
+                            CommonTextForm(
+                              title: "Father NID",
+                              textController: fathNIDCtrl,
+                              focusNode: fathNIDFocusNode,
+                            ),
+                            CommonTextForm(
+                              title: "Father Mobile",
+                              textController: fathMobCtrl,
+                              focusNode: fathMobFocusNode,
+                            ),
+                            CommonTextForm(
+                              title: "Mother name",
+                              textController: mothNameCtrl,
+                              focusNode: mothNameFocusNode,
+                            ),
+                            CommonTextForm(
+                              title: "Mother Mobile",
+                              textController: mothMobCtrl,
+                              focusNode: mothMobFocusNode,
+                            ),
                                           ],
                                         ),
                                       ),
@@ -249,10 +321,20 @@ class _AdmissionDesktopFormState extends State<AdmissionDesktopForm> {
                                             border: Border.all(
                                                 width: 0.5,
                                                 color: AppColors.grey2)),
-                                        child: const Column(
+                                        child:  Column(
                                           children: [
-                                            AdmissionHeader(
-                                                title: "Others Information"),
+                                             const AdmissionHeader(
+                                title: "Others Information"),
+                                 CommonTextForm(
+                              title: "Guardian name",
+                              textController: guarNameCtrl,
+                              focusNode: guarNameFocusNode,
+                            ),
+                             CommonTextForm(
+                              title: "Guardian Mobile",
+                              textController: guarModCtrl,
+                              focusNode: guarMobFocusNode,
+                            ),
                                           ],
                                         ),
                                       ),
@@ -267,10 +349,23 @@ class _AdmissionDesktopFormState extends State<AdmissionDesktopForm> {
                                             border: Border.all(
                                                 width: 0.5,
                                                 color: AppColors.grey2)),
-                                        child: const Column(
+                                        child:  Column(
                                           children: [
-                                            AdmissionHeader(
-                                                title: "Academic Information"),
+                                           const AdmissionHeader(
+                                title: "Academic Information"),
+                            CommonDropdownButton(
+                              list: const ['Play', 'Nursery', 'KG'],
+                              textController: clsIdCtrl,
+                            ),
+                             CommonDropdownButton(
+                              list: const ['Section A', 'Section B', 'Section C'],
+                              textController: secIdCtrl,
+                            ),
+                            CommonTextForm(
+                              title: " Previous school",
+                              textController: prevInstCtrl,
+                              focusNode: prevInstFocusNode,
+                            ),
                                           ],
                                         ),
                                       ),
@@ -305,11 +400,54 @@ class _AdmissionDesktopFormState extends State<AdmissionDesktopForm> {
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8),
                                     border: Border.all(color: AppColors.grey2)),
-                                child: const Column(
+                                child:  Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    AdmissionHeader(
-                                        title: "Student Information"),
+                                     const AdmissionHeader(title: "Student Information"),
+                            CommonTextForm(
+                                title: "student name",
+                                textController: stdNameCtrl,
+                                focusNode: stdNameFocusNode),
+                            CommonDropdownButton(
+                              list: ['male', 'female'],
+                              textController: gendCtrl,
+                            ),
+                            CommonTextForm(
+                              title: "DOB",
+                              textController: dOBCtrl,
+                              focusNode: dOBFocusNode,
+                              suffixIconData: Icons.calendar_month,
+                              onPressed: () {
+                                op.selectDate(
+                                    context: context,
+                                    textController: dOBCtrl,
+                                    select: '');
+                              },
+                            ),
+                             CommonTextForm(
+                                title: "Birth Certification No",
+                                textController: dOBNoCtrl,
+                                focusNode: dOBNoFocusNode),
+                            CommonTextForm(
+                                title: "Mobile",
+                                textController: stdModCtrl,
+                                focusNode: stdModFocusNode),
+                            CommonTextForm(
+                                title: "Email",
+                                textController: stdMailCtrl,
+                                focusNode: stdMailFocusNode),
+                            CommonTextForm(
+                              title: "Current address",
+                              textController: stdCAdrCtrl,
+                              focusNode: stdCAdrFocusNode,
+                              maxLine: 3,
+                            ),
+                             CommonTextForm(
+                              title: "Permanent address",
+                              textController: stdCAdrCtrl,
+                              focusNode: stdCAdrFocusNode,
+                              maxLine: 3,
+                            ),
                                   ],
                                 ),
                               ),
@@ -319,10 +457,34 @@ class _AdmissionDesktopFormState extends State<AdmissionDesktopForm> {
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8),
                                     border: Border.all(color: AppColors.grey2)),
-                                child: const Column(
+                                child:  Column(
                                   children: [
-                                    AdmissionHeader(
-                                        title: "Parent Information"),
+                                    const AdmissionHeader(title: "Parent Information"),
+                            CommonTextForm(
+                              title: "Father name",
+                              textController: fathNameCtrl,
+                              focusNode: fathNameFocusNode,
+                            ),
+                            CommonTextForm(
+                              title: "Father NID",
+                              textController: fathNIDCtrl,
+                              focusNode: fathNIDFocusNode,
+                            ),
+                            CommonTextForm(
+                              title: "Father Mobile",
+                              textController: fathMobCtrl,
+                              focusNode: fathMobFocusNode,
+                            ),
+                            CommonTextForm(
+                              title: "Mother name",
+                              textController: mothNameCtrl,
+                              focusNode: mothNameFocusNode,
+                            ),
+                            CommonTextForm(
+                              title: "Mother Mobile",
+                              textController: mothMobCtrl,
+                              focusNode: mothMobFocusNode,
+                            ),
                                   ],
                                 ),
                               ),
@@ -346,10 +508,20 @@ class _AdmissionDesktopFormState extends State<AdmissionDesktopForm> {
                                     borderRadius: BorderRadius.circular(8),
                                     border: Border.all(
                                         width: 0.5, color: AppColors.grey2)),
-                                child: const Column(
+                                child:  Column(
                                   children: [
-                                    AdmissionHeader(
-                                        title: "Others Information"),
+                                    const AdmissionHeader(
+                                title: "Others Information"),
+                                 CommonTextForm(
+                              title: "Guardian name",
+                              textController: guarNameCtrl,
+                              focusNode: guarNameFocusNode,
+                            ),
+                             CommonTextForm(
+                              title: "Guardian Mobile",
+                              textController: guarModCtrl,
+                              focusNode: guarMobFocusNode,
+                            ),
                                   ],
                                 ),
                               ),
@@ -360,10 +532,23 @@ class _AdmissionDesktopFormState extends State<AdmissionDesktopForm> {
                                     borderRadius: BorderRadius.circular(8),
                                     border: Border.all(
                                         width: 0.5, color: AppColors.grey2)),
-                                child: const Column(
+                                child:  Column(
                                   children: [
-                                    AdmissionHeader(
-                                        title: "Academic Information"),
+                                    const AdmissionHeader(
+                                title: "Academic Information"),
+                            CommonDropdownButton(
+                              list: const ['Play', 'Nursery', 'KG'],
+                              textController: clsIdCtrl,
+                            ),
+                             CommonDropdownButton(
+                              list: const ['Section A', 'Section B', 'Section C'],
+                              textController: secIdCtrl,
+                            ),
+                            CommonTextForm(
+                              title: " Previous school",
+                              textController: prevInstCtrl,
+                              focusNode: prevInstFocusNode,
+                            ),
                                   ],
                                 ),
                               ),
@@ -406,8 +591,12 @@ class _AdmissionDesktopFormState extends State<AdmissionDesktopForm> {
                                     select: '');
                               },
                             ),
+                             CommonTextForm(
+                                title: "Birth Certification No",
+                                textController: dOBNoCtrl,
+                                focusNode: dOBNoFocusNode),
                             CommonTextForm(
-                                title: "Mobile No",
+                                title: "Mobile",
                                 textController: stdModCtrl,
                                 focusNode: stdModFocusNode),
                             CommonTextForm(
@@ -415,34 +604,40 @@ class _AdmissionDesktopFormState extends State<AdmissionDesktopForm> {
                                 textController: stdMailCtrl,
                                 focusNode: stdMailFocusNode),
                             CommonTextForm(
-                              title: "address",
-                              textController: stdAdrCtrl,
-                              focusNode: stdAdrFocusNode,
+                              title: "Current address",
+                              textController: stdCAdrCtrl,
+                              focusNode: stdCAdrFocusNode,
+                              maxLine: 3,
+                            ),
+                             CommonTextForm(
+                              title: "Permanent address",
+                              textController: stdCAdrCtrl,
+                              focusNode: stdCAdrFocusNode,
                               maxLine: 3,
                             ),
                             const AdmissionHeader(title: "Parent Information"),
                             CommonTextForm(
-                              title: "father name",
+                              title: "Father name",
                               textController: fathNameCtrl,
                               focusNode: fathNameFocusNode,
                             ),
                             CommonTextForm(
-                              title: "father NID",
+                              title: "Father NID",
                               textController: fathNIDCtrl,
                               focusNode: fathNIDFocusNode,
                             ),
                             CommonTextForm(
-                              title: "father Mobile",
+                              title: "Father Mobile",
                               textController: fathMobCtrl,
                               focusNode: fathMobFocusNode,
                             ),
                             CommonTextForm(
-                              title: "mother name",
+                              title: "Mother name",
                               textController: mothNameCtrl,
                               focusNode: mothNameFocusNode,
                             ),
                             CommonTextForm(
-                              title: "mother Mobile",
+                              title: "Mother Mobile",
                               textController: mothMobCtrl,
                               focusNode: mothMobFocusNode,
                             ),
@@ -450,7 +645,16 @@ class _AdmissionDesktopFormState extends State<AdmissionDesktopForm> {
                                 title: "Academic Information"),
                             CommonDropdownButton(
                               list: const ['Play', 'Nursery', 'KG'],
-                              textController: gendCtrl,
+                              textController: clsIdCtrl,
+                            ),
+                             CommonDropdownButton(
+                              list: const ['Section A', 'Section B', 'Section C'],
+                              textController: secIdCtrl,
+                            ),
+                            CommonTextForm(
+                              title: " Previous school",
+                              textController: prevInstCtrl,
+                              focusNode: prevInstFocusNode,
                             ),
                             const AdmissionHeader(
                                 title: "Others Information"),
@@ -467,7 +671,7 @@ class _AdmissionDesktopFormState extends State<AdmissionDesktopForm> {
                             CustomButton(
                               title: '',
                               onTap: () {
-                                print("btn press");
+                                log("btn press");
                               },
                             )
                           ],

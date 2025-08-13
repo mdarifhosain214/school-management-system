@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:school_management_system_app/home/dashboard.dart';
+import 'package:school_management_system_app/view/home/dashboard.dart';
 import 'package:school_management_system_app/provider/api_provider.dart';
 
 class HomeScreen extends StatefulWidget {

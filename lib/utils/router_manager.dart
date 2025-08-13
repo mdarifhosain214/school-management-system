@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:school_management_system_app/home/home_screen.dart';
+import 'package:school_management_system_app/view/home/home_screen.dart';
 import 'package:school_management_system_app/utils/app_string.dart';
 import 'package:school_management_system_app/view/admission/admission.dart';
 

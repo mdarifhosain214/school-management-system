@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:school_management_system_app/home/home_screen.dart';
+import 'package:school_management_system_app/view/home/home_screen.dart';
 import 'package:school_management_system_app/provider/api_provider.dart';
 import 'package:school_management_system_app/provider/operations.dart';
 import 'package:school_management_system_app/utils/router_manager.dart';
 import 'package:school_management_system_app/utils/theme_manager.dart';
 import 'package:school_management_system_app/service_locator.dart'as di;
-import 'api_services/Repository/api_repo.dart';
+
 
 
 void main() async{
