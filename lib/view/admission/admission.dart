@@ -12,13 +12,130 @@ import '../../widgets/common_drop_btn.dart';
 import '../../widgets/common_text_form.dart';
 import '../../widgets/custom_btn.dart';
 
-class AdmissionDesktopForm extends StatelessWidget {
+class AdmissionDesktopForm extends StatefulWidget {
   const AdmissionDesktopForm({super.key});
 
   @override
+  State<AdmissionDesktopForm> createState() => _AdmissionDesktopFormState();
+}
+
+class _AdmissionDesktopFormState extends State<AdmissionDesktopForm> {
+  //*****************student information controller ****************************
+  final TextEditingController stdNameCtrl = TextEditingController();
+  final TextEditingController dOBCtrl = TextEditingController();
+  final TextEditingController dOBNoCtrl = TextEditingController();
+  final TextEditingController gendCtrl = TextEditingController();
+  final TextEditingController stdModCtrl = TextEditingController();
+  final TextEditingController stdMailCtrl = TextEditingController();
+  final TextEditingController stdAdrCtrl = TextEditingController();
+
+  //*****************parent information controller ****************************
+  final TextEditingController fathNameCtrl = TextEditingController();
+  final TextEditingController fathNIDCtrl = TextEditingController();
+  final TextEditingController fathMobCtrl = TextEditingController();
+  final TextEditingController mothNameCtrl = TextEditingController();
+  final TextEditingController mothMobCtrl = TextEditingController();
+
+  //*****************Academic information controller ****************************
+  final TextEditingController clsIdCtrl = TextEditingController();
+  final TextEditingController prevInstCtrl = TextEditingController();
+   //*****************Others information controller ****************************
+    final TextEditingController guarNameCtrl = TextEditingController();
+    final TextEditingController guarModCtrl = TextEditingController();
+
+//*****************student information focus node ****************************
+  FocusNode stdNameFocusNode = FocusNode();
+  FocusNode dOBFocusNode = FocusNode();
+  FocusNode dOBNoFocusNode = FocusNode();
+  FocusNode stdModFocusNode = FocusNode();
+  FocusNode stdMailFocusNode = FocusNode();
+  FocusNode stdAdrFocusNode = FocusNode();
+
+  //*****************parent information focus node ****************************
+  FocusNode fathNameFocusNode = FocusNode();
+  FocusNode fathMobFocusNode = FocusNode();
+  FocusNode fathNIDFocusNode = FocusNode();
+  FocusNode mothNameFocusNode = FocusNode();
+  FocusNode mothMobFocusNode = FocusNode();
+
+  //*****************academic information focus node ****************************
+  FocusNode clsIdFocusNode = FocusNode();
+  FocusNode prevInstFocusNode = FocusNode();
+
+  //*****************others information focus node ****************************
+   FocusNode guarNameFocusNode = FocusNode();
+   FocusNode guarMobFocusNode = FocusNode();
+  @override
+  void dispose() {
+    //***************** dispose student information controller ****************************
+    stdNameCtrl.dispose();
+    dOBCtrl.dispose();
+    gendCtrl.dispose();
+    dOBNoCtrl.dispose();
+    stdModCtrl.dispose();
+    stdMailCtrl.dispose();
+    stdAdrCtrl.dispose();
+    //***************** dispose parent information controller ****************************
+    fathNameCtrl.dispose();
+    fathNIDCtrl.dispose();
+    fathMobCtrl.dispose();
+    mothNameCtrl.dispose();
+    mothMobCtrl.dispose();
+
+    //***************** dispose academic information controller ****************************
+    clsIdCtrl.dispose();
+    prevInstCtrl.dispose();
+
+     //***************** dispose academic information controller ****************************
+     guarNameCtrl.dispose();
+     guarModCtrl.dispose();
+
+    //***************** dispose student information focus node ****************************
+    stdNameFocusNode.dispose();
+    dOBFocusNode.dispose();
+    dOBNoFocusNode.dispose();
+    stdModFocusNode.dispose();
+    stdMailFocusNode.dispose();
+
+    //***************** dispose parent information focus node ****************************
+    fathNameFocusNode.dispose();
+    fathNIDFocusNode.dispose();
+    fathMobFocusNode.dispose();
+    mothNameFocusNode.dispose();
+    mothMobFocusNode.dispose();
+
+    //***************** dispose academic information focus node ****************************
+    clsIdFocusNode.dispose();
+    prevInstFocusNode.dispose(); 
+
+    //***************** dispose others information focus node ****************************
+    guarNameFocusNode.dispose();
+    guarMobFocusNode.dispose();
+
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
+  getData() {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (mounted) {
+        var op = Provider.of<OperationProvider>(context, listen: false);
+        op.selectDate(context: context, textController: stdNameCtrl);
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Consumer2<ApiProvider,OperationProvider>(builder: (context,ap, op, child) {
+    return Consumer2<ApiProvider, OperationProvider>(
+        builder: (context, ap, op, child) {
       return Scaffold(
+          resizeToAvoidBottomInset: true,
           appBar: Dimensions.isDestop(context)
               ? AppBar(
                   leading: IconButton(
@@ -63,7 +180,8 @@ class AdmissionDesktopForm extends StatelessWidget {
                                   Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceEvenly,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Container(
                                         margin:
@@ -75,30 +193,17 @@ class AdmissionDesktopForm extends StatelessWidget {
                                                 BorderRadius.circular(8),
                                             border: Border.all(
                                                 color: AppColors.grey2)),
-                                        child: const Column(
+                                        child: Column(
                                           mainAxisAlignment:
                                               MainAxisAlignment.start,
                                           children: [
-                                            AdmissionHeader(
+                                            const AdmissionHeader(
                                                 title: "Student Information"),
                                             CommonTextForm(
+                                              textController: stdNameCtrl,
+                                              focusNode: stdNameFocusNode,
                                               title: "Student Name",
                                             ),
-                                            CommonDropdownButton(
-                                              list: ['Male', 'Female','third gender'],
-                                            ),CommonTextForm(
-                                              title: "Date of Birth",
-                                            ),CommonTextForm(
-                                              title: "Religion",
-                                            ),
-                                            CommonTextForm(
-                                              title: "Current Address",
-                                            ),
-                                             CommonTextForm(
-                                              title: "Permanent Address",
-                                            ),
-                                            
-                              
                                           ],
                                         ),
                                       ),
@@ -116,25 +221,9 @@ class AdmissionDesktopForm extends StatelessWidget {
                                           children: [
                                             AdmissionHeader(
                                                 title: "Parent Information"),
-                                            CommonTextForm(
-                                              title: "Father's Name",
-                                            ),
-                                            CommonTextForm(
-                                              title: "Mother's Name",
-                                            ),
-                                            CommonTextForm(
-                                              title: "Father's NID",
-                                            ),
-                                            CommonTextForm(
-                                              title: "Phone Number",
-                                            ),
-                                            CommonTextForm(
-                                              title: "Guardian Number",
-                                            ),
                                           ],
                                         ),
                                       ),
-                                    
                                     ],
                                   ),
                                   Padding(
@@ -146,7 +235,8 @@ class AdmissionDesktopForm extends StatelessWidget {
                                   ),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Container(
                                         margin:
@@ -157,32 +247,16 @@ class AdmissionDesktopForm extends StatelessWidget {
                                             borderRadius:
                                                 BorderRadius.circular(8),
                                             border: Border.all(
-                                              width: 0.5,
+                                                width: 0.5,
                                                 color: AppColors.grey2)),
                                         child: const Column(
                                           children: [
                                             AdmissionHeader(
                                                 title: "Others Information"),
-                                            CommonTextForm(
-                                              title: "Monthly Fee",
-                                            ),
-                                            CommonTextForm(
-                                              title: "Discount TK",
-                                            ),
-                                             CommonDropdownButton(
-                                              list: ['Van', 'Micro Bus','Others'],
-                                            ),
-                                             CommonTextForm(
-                                              title: "Transport Fee",
-                                            ),
-                                             CommonTextForm(
-                                              title: "Create Parent Account",
-                                            ),
-                                            
                                           ],
                                         ),
                                       ),
-                                        Container(
+                                      Container(
                                         margin:
                                             const EdgeInsets.all(AppMargin.m8),
                                         padding:
@@ -197,23 +271,6 @@ class AdmissionDesktopForm extends StatelessWidget {
                                           children: [
                                             AdmissionHeader(
                                                 title: "Academic Information"),
-                                            CommonTextForm(
-                                              title: "Student ID",
-                                            ),
-                                             CommonTextForm(
-                                              title: "campus",
-                                            ),
-                                              CommonTextForm(
-                                              title: "class",
-                                            ),
-                                            CommonTextForm(
-                                              title: "Section",
-                                            ),
-                                             CommonTextForm(
-                                              title: "Admission Date",
-                                            ), CommonTextForm(
-                                              title: "Previous School",
-                                            ),
                                           ],
                                         ),
                                       ),
@@ -236,189 +293,185 @@ class AdmissionDesktopForm extends StatelessWidget {
                 )
               : Dimensions.isTablet(context)
                   ? SingleChildScrollView(
-                              child: Column(
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        margin:
-                                            const EdgeInsets.all(AppMargin.m8),
-                                        padding:
-                                            const EdgeInsets.all(AppPadding.p4),
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            border: Border.all(
-                                                color: AppColors.grey2)),
-                                        child: const Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            AdmissionHeader(
-                                                title: "Student Information"),
-                                            CommonTextForm(
-                                              title: "Student Name",
-                                            ),
-                                            CommonDropdownButton(
-                                              list: ['Male', 'Female','third gender'],
-                                            ),CommonTextForm(
-                                              title: "Date of Birth",
-                                            ),CommonTextForm(
-                                              title: "Religion",
-                                            ),
-                                            CommonTextForm(
-                                              title: "Current Address",
-                                            ),
-                                             CommonTextForm(
-                                              title: "Permanent Address",
-                                            ),
-                              
-                                          ],
-                                        ),
-                                      ),
-                                      Container(
-                                        margin:
-                                            const EdgeInsets.all(AppMargin.m8),
-                                        padding:
-                                            const EdgeInsets.all(AppPadding.p8),
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            border: Border.all(
-                                                color: AppColors.grey2)),
-                                        child: const Column(
-                                          children: [
-                                            AdmissionHeader(
-                                                title: "Parent Information"),
-                                            CommonTextForm(
-                                              title: "Father's Name",
-                                            ),
-                                            CommonTextForm(
-                                              title: "Mother's Name",
-                                            ),
-                                            CommonTextForm(
-                                              title: "Father's NID",
-                                            ),
-                                            CommonTextForm(
-                                              title: "Phone Number",
-                                            ),
-                                            CommonTextForm(
-                                              title: "Guardian Number",
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Divider(
-                                      thickness: .5,
-                                      color: AppColors.grey2,
-                                    ),
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        margin:
-                                            const EdgeInsets.all(AppMargin.m8),
-                                        padding:
-                                            const EdgeInsets.all(AppPadding.p8),
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            border: Border.all(
-                                              width: 0.5,
-                                                color: AppColors.grey2)),
-                                        child: const Column(
-                                          children: [
-                                            AdmissionHeader(
-                                                title: "Others Information"),
-                                            CommonTextForm(
-                                              title: "Monthly Fee",
-                                            ),
-                                            CommonTextForm(
-                                              title: "Discount TK",
-                                            ),
-                                             CommonDropdownButton(
-                                              list: ['Van', 'Micro Bus','Others'],
-                                            ),
-                                             CommonTextForm(
-                                              title: "Transport Fee",
-                                            ),
-                                             CommonTextForm(
-                                              title: "Create Parent Account",
-                                            ),
-                                            
-                                          ],
-                                        ),
-                                      ),
-                                        Container(
-                                        margin:
-                                            const EdgeInsets.all(AppMargin.m8),
-                                        padding:
-                                            const EdgeInsets.all(AppPadding.p8),
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            border: Border.all(
-                                                width: 0.5,
-                                                color: AppColors.grey2)),
-                                        child: const Column(
-                                          children: [
-                                            AdmissionHeader(
-                                                title: "Academic Information"),
-                                            CommonTextForm(
-                                              title: "Student ID",
-                                            ),
-                                             CommonTextForm(
-                                              title: "campus",
-                                            ),
-                                              CommonTextForm(
-                                              title: "class",
-                                            ),
-                                            CommonTextForm(
-                                              title: "Section",
-                                            ),
-                                             CommonTextForm(
-                                              title: "Admission Date",
-                                            ), CommonTextForm(
-                                              title: "Previous School",
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  CustomButton(
-                                    title: '',
-                                    onTap: () {
-                                      print("btn press");
-                                    },
-                                  )
-                                ],
-                              ),
-                            )
-                  : const Padding(
-                      padding: EdgeInsets.all(8.0),
                       child: Column(
-                        //  mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          AdmissionHeader(title: "Student Information"),
-                          CommonTextForm(
-                            title: "Student Name",
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                margin: const EdgeInsets.all(AppMargin.m8),
+                                padding: const EdgeInsets.all(AppPadding.p4),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+                                    border: Border.all(color: AppColors.grey2)),
+                                child: const Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    AdmissionHeader(
+                                        title: "Student Information"),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                margin: const EdgeInsets.all(AppMargin.m8),
+                                padding: const EdgeInsets.all(AppPadding.p8),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+                                    border: Border.all(color: AppColors.grey2)),
+                                child: const Column(
+                                  children: [
+                                    AdmissionHeader(
+                                        title: "Parent Information"),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
-                          CommonTextForm(
-                            title: "Student Name",
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Divider(
+                              thickness: .5,
+                              color: AppColors.grey2,
+                            ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                margin: const EdgeInsets.all(AppMargin.m8),
+                                padding: const EdgeInsets.all(AppPadding.p8),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+                                    border: Border.all(
+                                        width: 0.5, color: AppColors.grey2)),
+                                child: const Column(
+                                  children: [
+                                    AdmissionHeader(
+                                        title: "Others Information"),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                margin: const EdgeInsets.all(AppMargin.m8),
+                                padding: const EdgeInsets.all(AppPadding.p8),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+                                    border: Border.all(
+                                        width: 0.5, color: AppColors.grey2)),
+                                child: const Column(
+                                  children: [
+                                    AdmissionHeader(
+                                        title: "Academic Information"),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          CustomButton(
+                            title: '',
+                            onTap: () {
+                              print("btn press");
+                            },
                           )
                         ],
+                      ),
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          //  mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const AdmissionHeader(title: "Student Information"),
+                            CommonTextForm(
+                                title: "student name",
+                                textController: stdNameCtrl,
+                                focusNode: stdNameFocusNode),
+                            CommonDropdownButton(
+                              list: ['male', 'female'],
+                              textController: gendCtrl,
+                            ),
+                            CommonTextForm(
+                              title: "DOB",
+                              textController: dOBCtrl,
+                              focusNode: dOBFocusNode,
+                              suffixIconData: Icons.calendar_month,
+                              onPressed: () {
+                                op.selectDate(
+                                    context: context,
+                                    textController: dOBCtrl,
+                                    select: '');
+                              },
+                            ),
+                            CommonTextForm(
+                                title: "Mobile No",
+                                textController: stdModCtrl,
+                                focusNode: stdModFocusNode),
+                            CommonTextForm(
+                                title: "Email",
+                                textController: stdMailCtrl,
+                                focusNode: stdMailFocusNode),
+                            CommonTextForm(
+                              title: "address",
+                              textController: stdAdrCtrl,
+                              focusNode: stdAdrFocusNode,
+                              maxLine: 3,
+                            ),
+                            const AdmissionHeader(title: "Parent Information"),
+                            CommonTextForm(
+                              title: "father name",
+                              textController: fathNameCtrl,
+                              focusNode: fathNameFocusNode,
+                            ),
+                            CommonTextForm(
+                              title: "father NID",
+                              textController: fathNIDCtrl,
+                              focusNode: fathNIDFocusNode,
+                            ),
+                            CommonTextForm(
+                              title: "father Mobile",
+                              textController: fathMobCtrl,
+                              focusNode: fathMobFocusNode,
+                            ),
+                            CommonTextForm(
+                              title: "mother name",
+                              textController: mothNameCtrl,
+                              focusNode: mothNameFocusNode,
+                            ),
+                            CommonTextForm(
+                              title: "mother Mobile",
+                              textController: mothMobCtrl,
+                              focusNode: mothMobFocusNode,
+                            ),
+                            const AdmissionHeader(
+                                title: "Academic Information"),
+                            CommonDropdownButton(
+                              list: const ['Play', 'Nursery', 'KG'],
+                              textController: gendCtrl,
+                            ),
+                            const AdmissionHeader(
+                                title: "Others Information"),
+                                 CommonTextForm(
+                              title: "Guardian name",
+                              textController: guarNameCtrl,
+                              focusNode: guarNameFocusNode,
+                            ),
+                             CommonTextForm(
+                              title: "Guardian Mobile",
+                              textController: guarModCtrl,
+                              focusNode: guarMobFocusNode,
+                            ),
+                            CustomButton(
+                              title: '',
+                              onTap: () {
+                                print("btn press");
+                              },
+                            )
+                          ],
+                        ),
                       ),
                     ));
     });
